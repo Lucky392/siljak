@@ -12,10 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,13 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author blanusal
  */
 @Entity
-@Table(name = "slike")
+@Table(name = "admin")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Slike.findAll", query = "SELECT s FROM Slike s"),
-    @NamedQuery(name = "Slike.findById", query = "SELECT s FROM Slike s WHERE s.id = :id"),
-    @NamedQuery(name = "Slike.findBySlika", query = "SELECT s FROM Slike s WHERE s.slika = :slika")})
-public class Slike implements Serializable {
+    @NamedQuery(name = "Admin.findAll", query = "SELECT a FROM Admin a"),
+    @NamedQuery(name = "Admin.findById", query = "SELECT a FROM Admin a WHERE a.id = :id"),
+    @NamedQuery(name = "Admin.findByUsername", query = "SELECT a FROM Admin a WHERE a.username = :username"),
+    @NamedQuery(name = "Admin.findByPassword", query = "SELECT a FROM Admin a WHERE a.password = :password")})
+public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,23 +41,26 @@ public class Slike implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1000)
-    @Column(name = "slika")
-    private String slika;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Automobil automobil;
+    @Size(min = 1, max = 255)
+    @Column(name = "username")
+    private String username;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "password")
+    private String password;
 
-    public Slike() {
+    public Admin() {
     }
 
-    public Slike(Long id) {
+    public Admin(Long id) {
         this.id = id;
     }
 
-    public Slike(Long id, String slika) {
+    public Admin(Long id, String username, String password) {
         this.id = id;
-        this.slika = slika;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -69,20 +71,20 @@ public class Slike implements Serializable {
         this.id = id;
     }
 
-    public String getSlika() {
-        return slika;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSlika(String slika) {
-        this.slika = slika;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Automobil getAutomobil() {
-        return automobil;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAutomobil(Automobil automobil) {
-        this.automobil = automobil;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -95,10 +97,10 @@ public class Slike implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Slike)) {
+        if (!(object instanceof Admin)) {
             return false;
         }
-        Slike other = (Slike) object;
+        Admin other = (Admin) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -107,7 +109,7 @@ public class Slike implements Serializable {
 
     @Override
     public String toString() {
-        return "com.prodaja.automobila.Slike[ id=" + id + " ]";
+        return "domen.Admin[ id=" + id + " ]";
     }
     
 }
